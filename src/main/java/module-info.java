@@ -4,5 +4,5 @@ module com.example.pingponggame {
 
 
     opens com.example.pingponggame to javafx.fxml;
-    exports com.example.pingponggame;
+    exports com.example.pingponggame.Game;
 }
