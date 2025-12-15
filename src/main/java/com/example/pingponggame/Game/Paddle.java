@@ -34,16 +34,12 @@ public class Paddle {
 
         if (left) {
             boolean overlapX = ballX <= WIDTH && ballRight >= 0;
-            boolean overlapY = ballBottom >= y && ballY <= y + HEIGHT;
-            if (overlapX && overlapY) {
-                ball.bounceFromLeftPaddle(WIDTH);
-            }
+            boolean overlapY = ballY <= y + HEIGHT && ballBottom >= y;
+            if (overlapX && overlapY) ball.bounceFromLeftPaddle(WIDTH);
         } else {
             boolean overlapX = ballRight >= x && ballX <= x + WIDTH;
             boolean overlapY = ballBottom >= y && ballY <= y + HEIGHT;
-            if (overlapX && overlapY) {
-                ball.bounceFromRightPaddle(x);
-            }
+            if (overlapX && overlapY) ball.bounceFromRightPaddle(x);
         }
     }
 
@@ -53,5 +49,4 @@ public class Paddle {
     public int getScore() { return score; }
     public double getX() { return x; }
     public double getY() { return y; }
-    public boolean isLeft() { return left; }
 }
