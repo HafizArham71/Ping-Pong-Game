@@ -6,7 +6,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
@@ -66,7 +65,7 @@ public class Window extends Application {
         this.primaryStage = stage;
 
         try {
-            Image icon = new Image("icon.png");
+            Image icon = new Image("Icon.png");
             stage.getIcons().add(icon);
         } catch (Exception ignored) { }
 
