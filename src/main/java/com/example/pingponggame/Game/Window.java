@@ -35,7 +35,7 @@ public class Window extends Application {
     private static final double FIELD_HEIGHT = GameConfig.FIELD_HEIGHT;
 
     // Inner margin between rounded border and play area
-    private static final double BOARD_MARGIN = 40;
+    private static final double BOARD_MARGIN = 20;
 
     // Game model
     private Ball ball;
@@ -69,7 +69,7 @@ public class Window extends Application {
             stage.getIcons().add(icon);
         } catch (Exception ignored) { }
 
-        stage.setTitle("Ping Pong Game UI");
+        stage.setTitle("Ping Pong Game");
 
         Scene startScene = createStartScene();
         stage.setScene(startScene);
@@ -79,82 +79,108 @@ public class Window extends Application {
     /* ===================== START SCREEN ===================== */
 
     private Scene createStartScene() {
+
+        /* ---------- ROOT ---------- */
         StackPane root = new StackPane();
-        root.setPadding(new Insets(20));
         root.setStyle("-fx-background-color: #020617;");
+        root.setPadding(new Insets(20));
 
         BorderPane card = new BorderPane();
+        card.setMaxWidth(900);
         card.setStyle(
-                "-fx-background-color: linear-gradient(to bottom, #020617, #020617);" +
-                        "-fx-background-radius: 26;" +
-                        "-fx-border-radius: 26;"
+                "-fx-background-color: #0F172A;" +
+                        "-fx-background-radius: 24;"
         );
 
         DropShadow shadow = new DropShadow();
-        shadow.setColor(Color.color(0, 0, 0, 0.7));
         shadow.setRadius(40);
-        shadow.setOffsetY(10);
+        shadow.setOffsetY(12);
+        shadow.setColor(Color.color(0, 0, 0, 0.7));
         card.setEffect(shadow);
 
-        // Top bar, consistent with game screen
-        HBox topBar = new HBox();
-        topBar.setAlignment(Pos.CENTER_LEFT);
-        topBar.setPadding(new Insets(18, 30, 18, 30));
-        topBar.setStyle(
-                "-fx-background-color: #0B1020;" +
-                        "-fx-background-radius: 26 26 0 0;"
-        );
-        Label title = new Label("PING PONG GAME");
+        /* ---------- HEADER ---------- */
+        VBox header = new VBox(6);
+        header.setAlignment(Pos.CENTER);
+        header.setPadding(new Insets(40, 0, 20, 0));
+
+        Label title = new Label("PING PONG");
+        title.setFont(Font.font("System", FontWeight.EXTRA_BOLD, 48));
         title.setTextFill(Color.web("#E5E7EB"));
-        title.setFont(Font.font("System", FontWeight.BOLD, 18));
-        topBar.getChildren().add(title);
-        card.setTop(topBar);
 
-        // Center content: hero title, subtitle, name inputs, play button
-        VBox center = new VBox(30);
+        Label subtitle = new Label("PLAYER SETUP");
+        subtitle.setFont(Font.font("System", FontWeight.BOLD, 14));
+        subtitle.setTextFill(Color.web("#9CA3AF"));
+
+        header.getChildren().addAll(title, subtitle);
+        card.setTop(header);
+
+        /* ---------- CENTER CONTENT ---------- */
+        VBox center = new VBox(28);
         center.setAlignment(Pos.CENTER);
-        center.setPadding(new Insets(40, 60, 60, 60));
+        center.setPadding(new Insets(30, 60, 40, 60));
 
-        Label heroTitle = new Label("Neon Pong");
-        heroTitle.setTextFill(Color.web("#E5E7EB"));
-        heroTitle.setFont(Font.font("System", FontWeight.EXTRA_BOLD, 42));
-
-        Label heroSubtitle = new Label("Enter player names, then hit PLAY to start the match");
-        heroSubtitle.setTextFill(Color.web("#6B7280"));
-        heroSubtitle.setFont(Font.font("System", FontWeight.NORMAL, 16));
-
-        // Name inputs row
-        HBox namesRow = new HBox(24);
+        // Player name inputs
+        HBox namesRow = new HBox(30);
         namesRow.setAlignment(Pos.CENTER);
 
-        TextField leftNameField = new TextField();
-        leftNameField.setPromptText("Left player name");
-        styleNameField(leftNameField);
+        TextField leftName = new TextField();
+        leftName.setPromptText("PLAYER A");
+        styleStartField(leftName);
 
-        TextField rightNameField = new TextField();
-        rightNameField.setPromptText("Right player name");
-        styleNameField(rightNameField);
+        TextField rightName = new TextField();
+        rightName.setPromptText("PLAYER B");
+        styleStartField(rightName);
 
-        namesRow.getChildren().addAll(leftNameField, rightNameField);
+        namesRow.getChildren().addAll(leftName, rightName);
 
-        // Big circular play button with glow and triangle icon
-        StackPane playButton = createPlayButton(() -> {
-            String leftName  = leftNameField.getText().trim();
-            String rightName = rightNameField.getText().trim();
-            player1 = leftName.isEmpty()  ? "PLAYER A" : leftName.toUpperCase();
-            player2 = rightName.isEmpty() ? "PLAYER B" : rightName.toUpperCase();
-            showGameScene();
-        });
+        // Divider
+        Line divider = new Line(0, 0, 400, 0);
+        divider.setStroke(Color.web("#374151"));
+        divider.setStrokeWidth(1);
 
-        Label hint = new Label("Use W / S and ↑ / ↓ to move the paddles");
-        hint.setTextFill(Color.web("#4B5563"));
-        hint.setFont(Font.font("System", FontWeight.NORMAL, 13));
+        // Start hint
+        Label startHint = new Label("PRESS ENTER TO START");
+        startHint.setFont(Font.font("System", FontWeight.BOLD, 16));
+        startHint.setTextFill(Color.web("#E5E7EB"));
+        startHint.setOpacity(0.85);
 
-        center.getChildren().addAll(heroTitle, heroSubtitle, namesRow, playButton, hint);
+        // Controls
+        HBox controls = new HBox(80);
+        controls.setAlignment(Pos.CENTER);
+
+        Label leftControls = new Label("W / S");
+        leftControls.setFont(Font.font("System", FontWeight.BOLD, 14));
+        leftControls.setTextFill(Color.web("#60A5FA"));
+
+        Label rightControls = new Label("↑ / ↓");
+        rightControls.setFont(Font.font("System", FontWeight.BOLD, 14));
+        rightControls.setTextFill(Color.web("#F472B6"));
+
+        controls.getChildren().addAll(leftControls, rightControls);
+
+        center.getChildren().addAll(namesRow, divider, startHint, controls);
         card.setCenter(center);
 
         root.getChildren().add(card);
-        return new Scene(root, APP_WIDTH, APP_HEIGHT);
+
+        Scene scene = new Scene(root, APP_WIDTH, APP_HEIGHT);
+
+        /* ---------- INPUT HANDLING ---------- */
+        scene.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                player1 = leftName.getText().trim().isEmpty()
+                        ? "PLAYER A"
+                        : leftName.getText().trim().toUpperCase();
+
+                player2 = rightName.getText().trim().isEmpty()
+                        ? "PLAYER B"
+                        : rightName.getText().trim().toUpperCase();
+
+                showGameScene();
+            }
+        });
+
+        return scene;
     }
 
     private void styleNameField(TextField field) {
@@ -171,6 +197,21 @@ public class Window extends Application {
                         "-fx-padding: 10 16 10 16;"
         );
     }
+
+    private void styleStartField(TextField field) {
+        field.setPrefWidth(240);
+        field.setFont(Font.font("System", FontWeight.MEDIUM, 14));
+        field.setStyle(
+                "-fx-background-color: #020617;" +
+                        "-fx-border-color: #374151;" +
+                        "-fx-border-radius: 6;" +
+                        "-fx-background-radius: 6;" +
+                        "-fx-text-fill: #E5E7EB;" +
+                        "-fx-prompt-text-fill: #6B7280;" +
+                        "-fx-padding: 10 14;"
+        );
+    }
+
 
     private StackPane createPlayButton(Runnable onClick) {
         double radius = 60;
