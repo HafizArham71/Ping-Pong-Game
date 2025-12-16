@@ -31,8 +31,8 @@ public class Window extends Application {
     private static final double APP_HEIGHT = 720;
 
     // Logical playfield size
-    private static final double FIELD_WIDTH  = GameConfig.FIELD_WIDTH;
-    private static final double FIELD_HEIGHT = GameConfig.FIELD_HEIGHT;
+    private static final double FIELD_WIDTH  = GameConfig.FIELD_WIDTH;      // 1000
+    private static final double FIELD_HEIGHT = GameConfig.FIELD_HEIGHT;     // 450
 
     // Inner margin between rounded border and play area
     private static final double BOARD_MARGIN = 20;
@@ -76,7 +76,7 @@ public class Window extends Application {
         stage.show();
     }
 
-    /* ===================== START SCREEN ===================== */
+    // START SCREEN
 
     private Scene createStartScene() {
 
@@ -99,9 +99,9 @@ public class Window extends Application {
         card.setEffect(shadow);
 
         /* ---------- HEADER ---------- */
-        VBox header = new VBox(6);
+        VBox header = new VBox(8);
         header.setAlignment(Pos.CENTER);
-        header.setPadding(new Insets(40, 0, 20, 0));
+        header.setPadding(new Insets(40, 0, 24, 0));
 
         Label title = new Label("PING PONG");
         title.setFont(Font.font("System", FontWeight.EXTRA_BOLD, 48));
@@ -115,12 +115,12 @@ public class Window extends Application {
         card.setTop(header);
 
         /* ---------- CENTER CONTENT ---------- */
-        VBox center = new VBox(28);
+        VBox center = new VBox(32);
         center.setAlignment(Pos.CENTER);
-        center.setPadding(new Insets(30, 60, 40, 60));
+        center.setPadding(new Insets(32, 64, 40, 64));
 
         // Player name inputs
-        HBox namesRow = new HBox(30);
+        HBox namesRow = new HBox(32);
         namesRow.setAlignment(Pos.CENTER);
 
         TextField leftName = new TextField();
@@ -134,7 +134,7 @@ public class Window extends Application {
         namesRow.getChildren().addAll(leftName, rightName);
 
         // Divider
-        Line divider = new Line(0, 0, 400, 0);
+        Line divider = new Line(0, 0, 500, 0);
         divider.setStroke(Color.web("#374151"));
         divider.setStrokeWidth(1);
 
@@ -183,78 +183,7 @@ public class Window extends Application {
         return scene;
     }
 
-    private void styleNameField(TextField field) {
-        field.setPrefWidth(260);
-        field.setFont(Font.font("System", FontWeight.NORMAL, 14));
-        field.setStyle(
-                "-fx-background-color: #020617;" +
-                        "-fx-background-radius: 999;" +
-                        "-fx-border-radius: 999;" +
-                        "-fx-border-color: #1F2937;" +
-                        "-fx-border-width: 1;" +
-                        "-fx-text-fill: #E5E7EB;" +
-                        "-fx-prompt-text-fill: #6B7280;" +
-                        "-fx-padding: 10 16 10 16;"
-        );
-    }
-
-    private void styleStartField(TextField field) {
-        field.setPrefWidth(240);
-        field.setFont(Font.font("System", FontWeight.MEDIUM, 14));
-        field.setStyle(
-                "-fx-background-color: #020617;" +
-                        "-fx-border-color: #374151;" +
-                        "-fx-border-radius: 6;" +
-                        "-fx-background-radius: 6;" +
-                        "-fx-text-fill: #E5E7EB;" +
-                        "-fx-prompt-text-fill: #6B7280;" +
-                        "-fx-padding: 10 14;"
-        );
-    }
-
-
-    private StackPane createPlayButton(Runnable onClick) {
-        double radius = 60;
-
-        Circle base = new Circle(radius);
-        base.setFill(new LinearGradient(
-                0, 0, 1, 1, true, CycleMethod.NO_CYCLE,
-                new Stop(0, Color.web("#22C55E")),
-                new Stop(1, Color.web("#0EA5E9"))
-        ));
-
-        DropShadow glow = new DropShadow();
-        glow.setColor(Color.color(0.2, 1, 0.7, 0.7));
-        glow.setRadius(30);
-        glow.setOffsetY(0);
-        base.setEffect(glow);
-
-        Polygon triangle = new Polygon(
-                -15.0, -20.0,
-                -15.0, 20.0,
-                20.0, 0.0
-        );
-        triangle.setFill(Color.web("#F9FAFB"));
-
-        StackPane button = new StackPane(base, triangle);
-        button.setCursor(Cursor.HAND);
-
-        // subtle hover / press feedback
-        button.setOnMouseEntered(e -> button.setScaleX(1.05));
-        button.setOnMouseEntered(e -> button.setScaleY(1.05));
-        button.setOnMouseExited(e -> {
-            button.setScaleX(1.0);
-            button.setScaleY(1.0);
-        });
-        button.setOnMousePressed(e -> button.setOpacity(0.8));
-        button.setOnMouseReleased(e -> button.setOpacity(1.0));
-
-        button.setOnMouseClicked(e -> onClick.run());
-
-        return button;
-    }
-
-    /* ===================== GAME SCREEN ===================== */
+    // GAME SCREEN
 
     private void showGameScene() {
         StackPane root = new StackPane();
@@ -294,7 +223,22 @@ public class Window extends Application {
         root.requestFocus();
     }
 
-    /* ---------- UI building for game screen ---------- */
+    private void styleStartField(TextField field) {
+        field.setPrefWidth(240);
+        field.setFont(Font.font("System", FontWeight.MEDIUM, 14));
+        field.setStyle(
+                "-fx-background-color: #020617;" +
+                        "-fx-border-color: #374151;" +
+                        "-fx-border-radius: 4;" +
+                        "-fx-background-radius: 4;" +
+                        "-fx-text-fill: #E5E7EB;" +
+                        "-fx-prompt-text-fill: #6B7280;" +
+                        "-fx-padding: 10 16;"
+        );
+    }
+
+
+    // UI building for game screen
 
     private void buildCenter(BorderPane main) {
         VBox centerBox = new VBox(40);
@@ -358,8 +302,10 @@ public class Window extends Application {
         double totalHeight = FIELD_HEIGHT + 2 * BOARD_MARGIN;
 
         Rectangle fieldRect = new Rectangle(totalWidth, totalHeight);
-        fieldRect.setArcWidth(28);
-        fieldRect.setArcHeight(28);
+        fieldRect.setArcWidth(32);
+        fieldRect.setArcHeight(32);
+        fieldRect.setStrokeWidth(2);
+        fieldRect.setStroke(Color.web("#ffffff"));
         fieldRect.setFill(Color.web("#0F172A"));
 
         DropShadow ds = new DropShadow();
@@ -377,8 +323,7 @@ public class Window extends Application {
         );
 
         Line midLine = new Line(
-                BOARD_MARGIN + FIELD_WIDTH / 2, BOARD_MARGIN,
-                BOARD_MARGIN + FIELD_WIDTH / 2, BOARD_MARGIN + FIELD_HEIGHT
+                BOARD_MARGIN + FIELD_WIDTH / 2, BOARD_MARGIN,BOARD_MARGIN + FIELD_WIDTH / 2, BOARD_MARGIN + FIELD_HEIGHT
         );
         midLine.setStroke(Color.web("#4B5563"));
         midLine.setStrokeWidth(2);
@@ -403,7 +348,7 @@ public class Window extends Application {
         return fieldContainer;
     }
 
-    /* ---------- Game wiring ---------- */
+    // Game wiring
 
     private void setupGame(Scene scene) {
         if (gameLoop != null) {

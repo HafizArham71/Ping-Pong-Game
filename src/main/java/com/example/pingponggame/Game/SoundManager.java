@@ -22,7 +22,7 @@ public final class SoundManager {
             clip.play();
         };
 
-        // If already on JavaFX thread → play directly
+        // If already on JavaFX thread, play directly
         if (Platform.isFxApplicationThread()) {
             playTask.run();
         } else {

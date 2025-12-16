@@ -48,13 +48,11 @@ public class Ball {
     public void bounceFromLeftPaddle(double paddleRightX) {
         x = paddleRightX;         // place ball just to the RIGHT of the paddle
         xVel = Math.abs(xVel);    // ensure it moves right
-        SoundManager.play("/sound/point1.mp3");
     }
 
     public void bounceFromRightPaddle(double paddleLeftX) {
         x = paddleLeftX - SIZE;   // place ball just to the LEFT of the paddle
         xVel = -Math.abs(xVel);   // ensure it moves left
-        SoundManager.play("/sound/point.mp3");
     }
 
     public double getX() { return x; }
