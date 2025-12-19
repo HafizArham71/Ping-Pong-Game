@@ -413,6 +413,7 @@ public class Window extends Application {
     private void showWinner(String player, Color color) {
         gameOver = true;
         winnerLabel.setText(player.toUpperCase() + " WINS!");
+        SoundManager.play("/sound/Win.wav");
         winnerLabel.setTextFill(color);
         winnerLabel.setVisible(true);
         gameLoop.stop();
