@@ -21,23 +21,18 @@ import javafx.stage.Stage;
 
 public class Window extends Application {
 
-    // Window size
     private static final double APP_WIDTH  = 1200;
     private static final double APP_HEIGHT = 720;
 
-    // Logical playfield size
     private static final double FIELD_WIDTH  = GameConfig.FIELD_WIDTH;      // 1000
     private static final double FIELD_HEIGHT = GameConfig.FIELD_HEIGHT;     // 450
 
-    // Inner margin between rounded border and play area
     private static final double BOARD_MARGIN = 20;
 
-    // Game model
     private Ball ball;
     private Paddle paddle1;
     private Paddle paddle2;
 
-    // UI nodes
     private Circle ballNode;
     private Rectangle leftPaddleNode;
     private Rectangle rightPaddleNode;
@@ -45,7 +40,6 @@ public class Window extends Application {
     private Label scoreBLabel;
     private Label winnerLabel;
 
-    // Input state
     private boolean wPressed, sPressed, upPressed, downPressed;
 
     private AnimationTimer gameLoop;
@@ -66,14 +60,15 @@ public class Window extends Application {
 
         stage.setTitle("Ping Pong Game");
 
-        Scene startScene = createStartScene();
+        Scene startScene = createStartScene(stage);
         stage.setScene(startScene);
+        stage.setFullScreen(true);
         stage.show();
     }
 
     // START SCREEN
 
-    private Scene createStartScene() {
+    private Scene createStartScene(Stage stage) {
 
         /* ---------- ROOT ---------- */
         StackPane root = new StackPane();
@@ -159,6 +154,7 @@ public class Window extends Application {
         root.getChildren().add(card);
 
         Scene scene = new Scene(root, APP_WIDTH, APP_HEIGHT);
+        stage.setFullScreen(true);
 
         /* ---------- INPUT HANDLING ---------- */
         scene.setOnKeyPressed(e -> {
@@ -171,7 +167,7 @@ public class Window extends Application {
                         ? "PLAYER B"
                         : rightName.getText().trim().toUpperCase();
 
-                showGameScene();
+                showGameScene(stage);
             }
         });
 
@@ -180,7 +176,7 @@ public class Window extends Application {
 
     // GAME SCREEN
 
-    private void showGameScene() {
+    private void showGameScene(Stage stage) {
         StackPane root = new StackPane();
         root.setPadding(new Insets(20));
         root.setStyle("-fx-background-color: #020617;");
@@ -215,6 +211,7 @@ public class Window extends Application {
         setupGame(scene);
 
         primaryStage.setScene(scene);
+        stage.setFullScreen(true);
         root.requestFocus();
     }
 
