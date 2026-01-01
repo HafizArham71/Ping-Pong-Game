@@ -62,7 +62,6 @@ public class Window extends Application {
 
         Scene startScene = createStartScene(stage);
         stage.setScene(startScene);
-        stage.setFullScreen(true);
         stage.show();
     }
 
@@ -154,7 +153,6 @@ public class Window extends Application {
         root.getChildren().add(card);
 
         Scene scene = new Scene(root, APP_WIDTH, APP_HEIGHT);
-        stage.setFullScreen(true);
 
         /* ---------- INPUT HANDLING ---------- */
         scene.setOnKeyPressed(e -> {
@@ -176,7 +174,7 @@ public class Window extends Application {
 
     // GAME SCREEN
 
-    private void showGameScene(Stage stage) {
+    private void showGameScene(Stage    stage) {
         StackPane root = new StackPane();
         root.setPadding(new Insets(20));
         root.setStyle("-fx-background-color: #020617;");
@@ -211,7 +209,6 @@ public class Window extends Application {
         setupGame(scene);
 
         primaryStage.setScene(scene);
-        stage.setFullScreen(true);
         root.requestFocus();
     }
 
